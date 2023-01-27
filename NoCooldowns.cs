@@ -29,7 +29,7 @@ namespace UltraPowerUps
             this.timerStarted = true;
 
             //Activates infinite oversaws
-            NailgunPatch.noCooldowns = true;
+            CoinPatch.noCooldowns = true;
         }
         private void Update()
         {
@@ -40,7 +40,7 @@ namespace UltraPowerUps
         private void EndPowerUp()
         {
             //Disables infinite oversaws
-            NailgunPatch.noCooldowns = false;
+            CoinPatch.noCooldowns = false;
             Destroy(base.gameObject);
         }
         

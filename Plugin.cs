@@ -10,77 +10,89 @@ using HarmonyLib;
 using UnityEngine;
 using static UltraPowerUps.PowerUpStruct;
 using Console = GameConsole.Console;
+using Object = UnityEngine.Object;
 
 namespace UltraPowerUps
 {
-    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin("rougekill_ultrapowerups", "UltraPowerUps", "1.0.0")]
     public class Plugin : BaseUnityPlugin
     {
-        public static Dictionary<string, PowerUp> powerUps;
+        
+
+        public static Dictionary<string, PowerUp> powerUps = new Dictionary<string, PowerUp>();
+
         public static GameObject powerUpTemplate;
         private static AssetBundle commonBundle;
-        private static string path;
         
         Sprite sprite;
 
         private void Awake()
         {
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
-            path = System.Reflection.Assembly.GetAssembly(typeof(Plugin)).Location;
 
-            string workDir = Path.GetDirectoryName(path);
+            AssetBundle bundle = AssetBundle.LoadFromMemory(Resources.Resource1.ultrapowers);
+            Texture2D image = (Texture2D)bundle.LoadAsset("NoCooldown.png");
 
-            Texture2D texture = new Texture2D(200, 200);
-            texture.LoadImage(File.ReadAllBytes(workDir + "\\Sprites\\NoCooldown.png"));
-            sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.Tight, Vector4.zero);
+            
+            sprite = Sprite.Create(image, new Rect(0, 0, image.height, image.height), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.Tight, Vector4.zero);
         }
         private void Start()
         {
             Harmony harmony = new Harmony("UltraPowerUps");
-            if(sprite.texture != null)
-            {
-                print("texture no exist");
-            }
+            harmony.PatchAll();
+
             Color color = new Color(0.6f, 0.6f, 0.6f);
             RegisterPowerUp(typeof(NoCooldowns), sprite, "NoCooldowns", color);
-
-            
-            IEnumerable<AssetBundle> assetBundles = AssetBundle.GetAllLoadedAssetBundles();
-            foreach(AssetBundle bundle in assetBundles)
-            {
-                if (bundle.name.Contains("common"))
-                {
-                    commonBundle = bundle;
-                }
-            }
-            powerUpTemplate = commonBundle.LoadAsset<GameObject>("DualWieldPowerup.prefab");
         }
         public void RegisterPowerUp(Type power, Sprite sprite, string name, Color color)
         {
-
             PowerUp powerUp = new PowerUp(power, name, sprite, color);
             powerUps.Add(name, powerUp);
         }
+        public GameObject SpawnPowerUp(PowerUp power)
+        {
+            GameObject powerUpGO = Instantiate(powerUpTemplate);
+            Destroy(powerUpGO.GetComponent<DualWieldPickup>());
+
+            Renderer renderer = powerUpGO.GetComponent<Renderer>();
+            renderer.material.color = power.color;
+
+            powerUpGO.AddComponent<PowerUpPickup>();
+            PowerUpPickup pickup = powerUpGO.GetComponent<PowerUpPickup>();
+            pickup.powerUp = power;
+
+            SpriteRenderer renderer2 = powerUpGO.transform.GetComponentInChildren<SpriteRenderer>();
+            renderer2.sprite = power.sprite;
+
+            Light light = powerUpGO.transform.GetComponentInChildren<Light>();
+            light.color = power.color;
+
+            return powerUpGO;
+        }
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.L)){
-                PowerUp powerUp;
-                
-                if (powerUps.TryGetValue("NoCooldowns", out powerUp)) {
-                    
-                    //creates the power up gameobject
-                    GameObject powerUpGO = Instantiate(powerUpTemplate);
-                    Destroy(powerUpGO.GetComponent<DualWieldPickup>());
+            if(commonBundle == null)
+            {
+                IEnumerable<AssetBundle> assetBundles = AssetBundle.GetAllLoadedAssetBundles();
+                foreach (AssetBundle bundle in assetBundles)
+                {
+                    if (bundle.name.Contains("common"))
+                    {
+                        commonBundle = bundle;
+                        powerUpTemplate = commonBundle.LoadAsset<GameObject>("DualWieldPowerup.prefab");
+                    }
+                }
+            }
+            if (commonBundle != null)
+            {
+                if (Input.GetKeyDown(KeyCode.L))
+                {
+                    PowerUp powerUp;
 
-                    Renderer renderer = powerUpGO.GetComponent<Renderer>();
-                    renderer.material.color = powerUp.color;
-
-                    powerUpGO.AddComponent<PowerUpPickup>();
-                    PowerUpPickup pickup = powerUpGO.GetComponent<PowerUpPickup>();
-                    pickup.powerUp = powerUp;
-
-                    SpriteRenderer renderer2 = powerUpGO.transform.GetComponentInChildren<SpriteRenderer>();
-                    renderer2.sprite = powerUp.sprite;
+                    if (powerUps.TryGetValue("NoCooldowns", out powerUp)) 
+                    {
+                        SpawnPowerUp(powerUp);  
+                    }
                 }
             }
         }

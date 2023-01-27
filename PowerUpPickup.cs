@@ -33,6 +33,7 @@ namespace UltraPowerUps
             GameObject gameObject = new GameObject();
             Type power = this.powerUp.powerUp;
             gameObject.AddComponent(power);
+            Destroy(base.gameObject);
         }
     }
 }
