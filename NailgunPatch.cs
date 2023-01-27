@@ -15,14 +15,19 @@ namespace UltraPowerUps
         private static void Prefix(Nailgun __instance)
         {
             if (noCooldowns) {
+                
+                //Spawns a oversaw without using up the heat on the sawgun
                 CameraController cc = MonoSingleton<CameraController>.Instance;
+
                 GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(__instance.heatedNail, cc.transform.position + cc.transform.forward, __instance.gameObject.transform.rotation);
                 gameObject.transform.forward = cc.transform.forward;
+                
                 Rigidbody rigidbody;
                 if (gameObject.TryGetComponent<Rigidbody>(out rigidbody))
                 {
                     rigidbody.velocity = gameObject.transform.forward * 200f;
                 }
+                
                 Nail nail;
                 if (gameObject.TryGetComponent<Nail>(out nail)) {
 

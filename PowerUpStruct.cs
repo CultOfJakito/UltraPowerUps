@@ -11,7 +11,7 @@ namespace UltraPowerUps
     {
         public struct PowerUp
         {
-            public PowerUp(Type power, string identifier, Texture2D texture, Color colour)
+            public PowerUp(Type power, string identifier, Sprite texture, Color colour)
             {
                 powerUp = power;
                 name = identifier;
@@ -19,7 +19,7 @@ namespace UltraPowerUps
                 color = colour;
             }
             public Type powerUp; 
-            public Texture2D sprite;
+            public Sprite sprite;
             public string name;
             public Color color;
         }

@@ -16,16 +16,19 @@ namespace UltraPowerUps
 
         private void Start()
         {
+
             this.wc = MonoSingleton<WeaponCharges>.Instance;
             this.durationSeconds = 30f;
+            
+            //Initalises the powerup meter UI
             this.meter = MonoSingleton<PowerUpMeter>.Instance;
-
             this.meter.latestMaxJuice = this.durationSeconds;
             this.meter.juice = this.durationSeconds;
             this.meter.powerUpColor = new Color(0.6f, 0.6f, 0.6f);
             
             this.timerStarted = true;
 
+            //Activates infinite oversaws
             NailgunPatch.noCooldowns = true;
         }
         private void Update()
@@ -36,6 +39,7 @@ namespace UltraPowerUps
         }
         private void EndPowerUp()
         {
+            //Disables infinite oversaws
             NailgunPatch.noCooldowns = false;
             Destroy(base.gameObject);
         }
