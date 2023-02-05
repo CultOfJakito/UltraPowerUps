@@ -13,7 +13,7 @@ using Object = UnityEngine.Object;
 
 namespace UltraPowerUps
 {
-    [BepInPlugin("rougekill_ultrapowerups", "UltraPowerUps", "1.0.0")]
+    [BepInPlugin("rougekill_ultrapowerups", "UltraPowerUps", "1.1.0")]
     public class Plugin : BaseUnityPlugin
     {
         
