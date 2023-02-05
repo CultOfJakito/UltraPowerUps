@@ -41,7 +41,7 @@ namespace UltraPowerUps
             harmony.PatchAll();
 
             Color color = new Color(0.6f, 0.6f, 0.6f);
-            //RegisterPowerUp(typeof(NoCooldowns), sprite, "NoCooldowns", color);
+            RegisterPowerUp(NoCooldowns);
         }
         public static void RegisterPowerUp(PowerUp powerUp)
         {
