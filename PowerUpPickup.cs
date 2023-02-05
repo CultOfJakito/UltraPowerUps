@@ -9,7 +9,7 @@ namespace UltraPowerUps
 {
     public class PowerUpPickup:MonoBehaviour
     {
-        public PowerUp powerUp;
+        public PowerUpInfo Info { get; set; }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -21,16 +21,7 @@ namespace UltraPowerUps
 
         private void PickedUp()
         {
-            MonoSingleton<CameraController>.Instance.CameraShake(0.35f);
-
-            if (MonoSingleton<PlayerTracker>.Instance.playerType == PlayerType.Platformer)
-            {
-                MonoSingleton<PlatformerMovement>.Instance.AddExtraHit(3);
-                return;
-            }
-            
-            GameObject gameObject = new GameObject();
-            gameObject.AddComponent(powerUp.GetType());
+            Info.Activate(out _);
             Destroy(base.gameObject);
         }
     }
