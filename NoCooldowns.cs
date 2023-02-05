@@ -7,42 +7,28 @@ using UnityEngine;
 
 namespace UltraPowerUps
 {
-    public class NoCooldowns:MonoBehaviour
+    public class NoCooldowns : PowerUp
     {
-        WeaponCharges wc;
-        float durationSeconds;
-        bool timerStarted = false;
-        PowerUpMeter meter;
+        public override string Name => "NoCooldowns";
+        public override Color Color => new Color(0.6f, 0.6f, 0.6f);
+        public override float Duration => 30f;
+        public override Sprite Sprite => Plugin.sprite;
 
-        private void Start()
+        private WeaponCharges wc;
+
+        public override void PowerUpStart()
         {
-
             this.wc = MonoSingleton<WeaponCharges>.Instance;
-            this.durationSeconds = 30f;
-            
-            //Initalises the powerup meter UI
-            this.meter = MonoSingleton<PowerUpMeter>.Instance;
-            this.meter.latestMaxJuice = this.durationSeconds;
-            this.meter.juice = this.durationSeconds;
-            this.meter.powerUpColor = new Color(0.6f, 0.6f, 0.6f);
-            
-            this.timerStarted = true;
+        }
 
-            //Activates infinite oversaws
-            CoinPatch.noCooldowns = true;
-        }
-        private void Update()
+        public override void OnUpdate()
         {
-            if(timerStarted && meter.juice <= 0) {
-                this.EndPowerUp();
-            }
+            wc.rev1charge = 400f;
         }
-        private void EndPowerUp()
+
+        public override void PowerUpEnd()
         {
-            //Disables infinite oversaws
-            CoinPatch.noCooldowns = false;
-            Destroy(base.gameObject);
+            GameConsole.Console.print("power up ended");
         }
-        
     }
 }

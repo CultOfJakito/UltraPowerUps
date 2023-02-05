@@ -256,12 +256,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoinPatch.cs" />
     <Compile Include="NoCooldowns.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="PowerUpPickup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PowerUpStruct.cs" />
+    <Compile Include="PowerUp.cs" />
     <Compile Include="Resources\Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

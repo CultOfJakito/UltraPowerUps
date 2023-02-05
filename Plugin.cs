@@ -8,7 +8,6 @@ using BepInEx;
 using GameConsole;
 using HarmonyLib;
 using UnityEngine;
-using static UltraPowerUps.PowerUpStruct;
 using Console = GameConsole.Console;
 using Object = UnityEngine.Object;
 
@@ -24,7 +23,7 @@ namespace UltraPowerUps
         public static GameObject powerUpTemplate;
         private static AssetBundle commonBundle;
         
-        Sprite sprite;
+        public static Sprite sprite;
 
         private void Awake()
         {
@@ -42,30 +41,29 @@ namespace UltraPowerUps
             harmony.PatchAll();
 
             Color color = new Color(0.6f, 0.6f, 0.6f);
-            RegisterPowerUp(typeof(NoCooldowns), sprite, "NoCooldowns", color);
+            //RegisterPowerUp(typeof(NoCooldowns), sprite, "NoCooldowns", color);
         }
-        public void RegisterPowerUp(Type power, Sprite sprite, string name, Color color)
+        public static void RegisterPowerUp(PowerUp powerUp)
         {
-            PowerUp powerUp = new PowerUp(power, name, sprite, color);
-            powerUps.Add(name, powerUp);
+            powerUps.Add(powerUp.Name, powerUp);
         }
-        public GameObject SpawnPowerUp(PowerUp power)
+        public static GameObject SpawnPowerUp(PowerUp power)
         {
             GameObject powerUpGO = Instantiate(powerUpTemplate);
             Destroy(powerUpGO.GetComponent<DualWieldPickup>());
 
             Renderer renderer = powerUpGO.GetComponent<Renderer>();
-            renderer.material.color = power.color;
+            renderer.material.color = power.Color;
 
             powerUpGO.AddComponent<PowerUpPickup>();
             PowerUpPickup pickup = powerUpGO.GetComponent<PowerUpPickup>();
             pickup.powerUp = power;
 
             SpriteRenderer renderer2 = powerUpGO.transform.GetComponentInChildren<SpriteRenderer>();
-            renderer2.sprite = power.sprite;
+            renderer2.sprite = power.Sprite;
 
             Light light = powerUpGO.transform.GetComponentInChildren<Light>();
-            light.color = power.color;
+            light.color = power.Color;
 
             return powerUpGO;
         }

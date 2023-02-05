@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static UltraPowerUps.PowerUpStruct;
 
 namespace UltraPowerUps
 {
@@ -29,10 +28,9 @@ namespace UltraPowerUps
                 MonoSingleton<PlatformerMovement>.Instance.AddExtraHit(3);
                 return;
             }
-
+            
             GameObject gameObject = new GameObject();
-            Type power = this.powerUp.powerUp;
-            gameObject.AddComponent(power);
+            gameObject.AddComponent(powerUp.GetType());
             Destroy(base.gameObject);
         }
     }
