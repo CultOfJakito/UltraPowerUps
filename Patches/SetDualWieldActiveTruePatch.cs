@@ -7,7 +7,7 @@ using HarmonyLib;
 
 namespace UltraPowerUps.Patches {
 	[HarmonyPatch(typeof(DualWield), nameof(DualWield.Start))]
-	static file class SetDualWieldActiveTruePatch {
+	static class SetDualWieldActiveTruePatch {
 		static void Prefix() {
 			TimedPowerUp.isDualWieldActive = true;
 		}
