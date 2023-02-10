@@ -7,28 +7,27 @@ using UnityEngine;
 
 namespace UltraPowerUps
 {
-    public class NoCooldowns : PowerUp
+    public class NoCooldowns : TimedPowerUp
     {
-        public override string Name => "NoCooldowns";
-        public override Color Color => new Color(0.6f, 0.6f, 0.6f);
-        public override float Duration => 30f;
-        public override Sprite Sprite => Plugin.sprite;
 
         private WeaponCharges wc;
 
-        public override void PowerUpStart()
+        protected override void Start()
         {
+            base.Start();
+
             this.wc = MonoSingleton<WeaponCharges>.Instance;
         }
 
-        public override void OnUpdate()
+        protected override void Update()
         {
-            wc.rev1charge = 400f;
+            base.Update();
+
+            wc.MaxCharges();
         }
 
-        public override void PowerUpEnd()
-        {
-            GameConsole.Console.print("power up ended");
+        private void OnDestroy() {
+            Plugin.logger.LogInfo("Powerup Ended");
         }
     }
 }
