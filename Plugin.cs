@@ -39,19 +39,7 @@ namespace UltraPowerUps
         private void Awake()
         {
             logger = Logger;
-
             Logger.LogInfo($"Plugin {Info.Metadata.GUID} is loaded!");
-
-            AssetBundle bundle = AssetBundle.LoadFromMemory(Resources.Resource1.ultrapowers);
-            Texture2D image = (Texture2D)bundle.LoadAsset("NoCooldown.png");
-            
-            defaultSprite = Sprite.Create(image, new Rect(0, 0, image.height, image.height), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.Tight, Vector4.zero);
-
-            PowerUpManager.RegisterPowerUp(new PowerUpInfo() {
-                ID = "ultrapowerups.powerup.nocooldowns",
-                Icon = defaultSprite,
-                BehaviourType = typeof(NoCooldowns)
-            });
         }
         private void Start()
         {
@@ -59,8 +47,6 @@ namespace UltraPowerUps
             harmony.PatchAll();
 
             PowerUpPickupBuilder.DualWieldPrefab = Addressables.LoadAssetAsync<GameObject>("Assets/Prefabs/Levels/DualWieldPowerup.prefab").WaitForCompletion();
-            Color color = new Color(0.6f, 0.6f, 0.6f);
-            //RegisterPowerUp(NoCooldowns);
         }
       
         

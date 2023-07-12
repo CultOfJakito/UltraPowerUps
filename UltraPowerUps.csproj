@@ -266,7 +266,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorExtensions.cs" />
-    <Compile Include="NoCooldowns.cs" />
     <Compile Include="Patches\SetDualWieldActiveFalsePatch.cs" />
     <Compile Include="Patches\SetDualWieldActiveTruePatch.cs" />
     <Compile Include="Plugin.cs" />
@@ -276,28 +275,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PowerUp.cs" />
     <Compile Include="PowerUpInfo.cs" />
-    <Compile Include="Resources\Resource1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
-    </Compile>
     <Compile Include="TimedPowerUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="AssetBundles\ultrapowers" />
-    <None Include="AssetBundles\ultrapowers.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Assembly-CSharp.dll" />
     <Content Include="lib\UnityEngine.UI.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Resource1.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Publicize Include="Assembly-CSharp" />
