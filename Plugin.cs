@@ -9,6 +9,8 @@ using BepInEx.Logging;
 using GameConsole;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement;
 using Console = GameConsole.Console;
 using Object = UnityEngine.Object;
 
@@ -56,23 +58,11 @@ namespace UltraPowerUps
             Harmony harmony = new Harmony("UltraPowerUps");
             harmony.PatchAll();
 
+            PowerUpPickupBuilder.DualWieldPrefab = Addressables.LoadAssetAsync<GameObject>("Assets/Prefabs/Levels/DualWieldPowerup.prefab").WaitForCompletion();
             Color color = new Color(0.6f, 0.6f, 0.6f);
             //RegisterPowerUp(NoCooldowns);
         }
-        private void Update()
-        {
-            if(commonBundle == null)
-            {
-                IEnumerable<AssetBundle> assetBundles = AssetBundle.GetAllLoadedAssetBundles();
-                foreach (AssetBundle bundle in assetBundles)
-                {
-                    if (bundle.name.Contains("common"))
-                    {
-                        commonBundle = bundle;
-                        PowerUpPickupBuilder.DualWieldPrefab = commonBundle.LoadAsset<GameObject>("DualWieldPowerup.prefab");
-                    }
-                }
-            }
-        }
+      
+        
     }
 }
